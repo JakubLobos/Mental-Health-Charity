@@ -5,6 +5,7 @@ import StyledHomePage from "./HomePage.style";
 import RoleSelectorBtn from "./roleselectorbtn/RoleSelectorBtn.component";
 import DotsWave from "../../assets/images/static/dotswave.svg"
 import Image from "next/image";
+import LoginPopUp from "../../common/components/loginpopup/LoginPopUp.component";
 
 const HomePage: FC = () => {
     
@@ -14,8 +15,8 @@ const HomePage: FC = () => {
                 <div className="homepage_wrapper">
                     <p className="homepage_desc_im">Jestem...</p>
                     <div className="buttons_wrapper">
-                        <RoleSelectorBtn value={"Wolontariuszem"} />
-                        <RoleSelectorBtn value={"Pacjentem"} />
+                        <RoleSelectorBtn value={"Wolontariuszem"} router={"/panel-wolontariusza"} />
+                        <RoleSelectorBtn value={"Podopiecznym"} router={"/panel-podopiecznego"} />
                         <Image className="dots_wave" alt="Logo" src={DotsWave}></Image>
                     </div>
                 </div>

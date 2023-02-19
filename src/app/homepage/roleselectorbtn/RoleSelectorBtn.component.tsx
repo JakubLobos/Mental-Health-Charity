@@ -3,12 +3,13 @@ import StyledRoleSelectorBtn from "./RoleSelectorBtn.style";
 
 interface RoleSelectorBtnProps {
     value: string,
+    router: string,
 }
 
-const RoleSelectorBtn: FC<RoleSelectorBtnProps> = ({value}) => {
+const RoleSelectorBtn: FC<RoleSelectorBtnProps> = ({value, router}) => {
 
     return (
-        <StyledRoleSelectorBtn>
+        <StyledRoleSelectorBtn href={router}>
          {value}   
         </StyledRoleSelectorBtn>
     )

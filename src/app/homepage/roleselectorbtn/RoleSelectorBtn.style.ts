@@ -6,6 +6,7 @@ const StyledRoleSelectorBtn = styled.a`
     align-items: center;
     justify-content: center;
 
+    text-decoration: none;
     padding: 1em;
     width: 14em;
     min-height: 5.4em;
