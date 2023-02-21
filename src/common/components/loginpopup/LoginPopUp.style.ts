@@ -1,7 +1,11 @@
 import styled from "styled-components";
 import colorPallete from "../../styles/colorpalette";
 
-const StyledLoginPopUp = styled.div`
+interface StyledPopUpProps {
+    allowExit: boolean,
+}
+
+const StyledLoginPopUp = styled.div<StyledPopUpProps>`
     display: flex;
     position: relative;
     align-items: center;
@@ -29,6 +33,24 @@ const StyledLoginPopUp = styled.div`
         height: 3em;
         top: 0;
         left: 0;
+    }
+
+    & .exit_popup {
+        display: ${props => props.allowExit ? "block" : "none"};
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 1.3em;
+        font-size: 2em;
+        background-color: transparent;
+        border: 0;
+        color: ${colorPallete.basic.white};
+        transition: .5s;
+        cursor: pointer;
+    }
+
+    & .exit_popup:hover {
+        color: ${colorPallete.basic.pink};
     }
 `
 

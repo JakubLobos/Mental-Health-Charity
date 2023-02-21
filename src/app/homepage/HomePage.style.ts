@@ -7,10 +7,19 @@ const StyledHomePage = styled.section`
     width: 100%;
     min-height: 100vh;
     height: 100vh;
+    
 
     & p {
         font-size: 6em;
         color: ${colorPallete.basic.white};
+    }
+
+    .homepage_desc_im_more {
+        font-size: 1em;
+        background-color: ${colorPallete.basic.pink};
+        padding: .4em;
+        border-radius: 1em;
+        animation: descGlowing 4s infinite;
     }
 
     & .homepage_wrapper {
@@ -40,6 +49,17 @@ const StyledHomePage = styled.section`
         flex-wrap: wrap;
         margin: 5em;
     }
+
+    @keyframes descGlowing {
+        0%,100% {
+            opacity: .7;
+        }
+
+        50% {
+            opacity: 1;
+        }
+    }
+
 `
 
 export default StyledHomePage;

@@ -1,7 +1,11 @@
 import styled from "styled-components";
 
-const StyledUnfocusedBg = styled.div`
-    display: flex;
+interface StyledUnfocusedBgProps {
+    isPopUpVisible: boolean,
+}
+
+const StyledUnfocusedBg = styled.div<StyledUnfocusedBgProps>`
+    display: ${props => props.isPopUpVisible ? "flex" : "none"};
     align-items: center;
     justify-content: center;
     position: fixed;

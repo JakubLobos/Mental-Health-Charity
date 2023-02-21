@@ -46,8 +46,23 @@ const StyledNavbar = styled.nav`
         }
     }
     
-
     & .logo_img { margin-right: .5em; height: 2em;}
+
+    & .account_info_wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        color: ${colorPallete.basic.black};
+        font-size: 1.2em;
+        font-weight: 1000;
+        background-color: ${colorPallete.basic.violet};
+        padding: .2em .5em .2em .2em;
+        border-radius: .2em;
+
+        & .user_db_profile_img {
+            margin-right: .5em;
+        }
+    }
 `
 
 export default StyledNavbar;

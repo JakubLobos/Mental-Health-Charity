@@ -10,16 +10,13 @@ const withAuth = (Component:React.ReactNode | any) => {
         useEffect(() => {
             if (userSession) {
                 setShowPopup(false);
-                console.log("usuwam popup")
             } else {
                 setShowPopup(true);
-                console.log("niezalogowany ")
             }
-            console.log("auth protect")
             console.log(userSession)
         }, [userSession]);
 
-        if (showPopup) return <LoginPopUp />;
+        if (showPopup) return <LoginPopUp allowExit={false} />;
         else return <Component {...props} />;
         
     };

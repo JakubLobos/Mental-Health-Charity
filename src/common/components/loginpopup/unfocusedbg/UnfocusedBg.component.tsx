@@ -3,12 +3,13 @@ import StyledUnfocusedBg from "./UnfocusedBg.style";
 
 interface UnfocusedBgProps {
     children: React.ReactNode, 
+    isPopUpVisible: boolean,
 }
 
-const UnfocusedBg: FC<UnfocusedBgProps> = ({children}) => {
+const UnfocusedBg: FC<UnfocusedBgProps> = ({children, isPopUpVisible}) => {
 
     return (
-        <StyledUnfocusedBg>
+        <StyledUnfocusedBg isPopUpVisible={isPopUpVisible}>
             {children}
         </StyledUnfocusedBg>
     )

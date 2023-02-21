@@ -1,10 +1,12 @@
 import styled from "styled-components";
+import colorPallete from "../../common/styles/colorpalette";
 
 const StyledMenteePanel = styled.section`
-    padding-top: 200px;
+    padding-top: 100px;
 
     p {
-        font-size: 20em;
+        font-size: 5em;
+        color: ${colorPallete.basic.white};
     }
 `
 

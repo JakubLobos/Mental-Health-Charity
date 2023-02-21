@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import StyledLoginPopUp from "./LoginPopUp.style";
 import LoginPopUpButton from "./popuploginbutton/PopUpLoginButton.component";
 import UnfocusedBg from "./unfocusedbg/UnfocusedBg.component";
@@ -10,13 +10,18 @@ import { useAuthState } from "react-firebase-hooks/auth"
 import { useUser } from "../../utils/usersession/UserSessionProvider.component";
 import Image from "next/image";
 
-const LoginPopUp:FC = () => {
+interface LoginPopUpProps {
+    allowExit: boolean;
+}
+
+const LoginPopUp:FC<LoginPopUpProps> = ({allowExit}) => {
     
     const [user, setUser] = useAuthState(auth)
     const googleAuth = new GoogleAuthProvider();
     const facebookAuth = new FacebookAuthProvider();
     const { setUserSession, userSession } = useUser();
-    
+    const [isPopUpVisible, setIsPopUpVisible] = useState(true)
+
     const loginWithGoogle = async() => {
         const result = await signInWithPopup(auth, googleAuth);
     }
@@ -25,14 +30,13 @@ const LoginPopUp:FC = () => {
         const result = await signInWithPopup(auth, facebookAuth);
     }
 
-
-
-
     const checkUserSession = () => {
         if (userSession) {
             return (<>
                 <h2>Zalogowano jako {userSession.displayName}</h2>
-                <img width={60} alt={userSession.displayName} src={userSession.photoURL} />
+                <h3>e-mail: {userSession.email}</h3>
+                <h3>uprawnienia: użytkownik</h3>
+                <Image width={60} height={60} alt={userSession.displayName} src={userSession.photoURL} />
                 <button onClick={() => {
                     auth.signOut();
                     setUserSession(null);
@@ -49,16 +53,15 @@ const LoginPopUp:FC = () => {
     }
 
     useEffect(() => {
-        console.log("user")
-        console.log(user)
         user ? setUserSession(user) : console.log("user undefined")
-        console.log("user session:")
-        console.log(userSession);
-    },[setUserSession, user])
+    }, [setUserSession, user])
+
+    
 
     return (
-        <UnfocusedBg>
-            <StyledLoginPopUp>
+        <UnfocusedBg isPopUpVisible={isPopUpVisible}>
+            <StyledLoginPopUp allowExit={allowExit}>
+                <button onClick={() => setIsPopUpVisible(isPopUpVisible ? false : true)} className="exit_popup">X</button>
                 {
                     checkUserSession()
                 }

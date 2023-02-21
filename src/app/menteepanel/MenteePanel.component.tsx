@@ -7,7 +7,8 @@ import StyledMenteePanel from "./MenteePanel.style";
 const MenteePanel: FC = withAuth(() => {
     return (
         <StyledMenteePanel>
-            <p>Witam w panelu</p>
+            <p>Uzyskano autoryzację do panelu</p>
+            <p>treść strony...</p>
         </StyledMenteePanel>   
     ) 
 });

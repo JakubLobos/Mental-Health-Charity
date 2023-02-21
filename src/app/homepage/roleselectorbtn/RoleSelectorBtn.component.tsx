@@ -1,15 +1,16 @@
-import { FC } from "react";
+import { Dispatch, FC, SetStateAction } from "react";
 import StyledRoleSelectorBtn from "./RoleSelectorBtn.style";
 
 interface RoleSelectorBtnProps {
     value: string,
     router: string,
+    setRole: Dispatch<SetStateAction<string>>,
 }
 
-const RoleSelectorBtn: FC<RoleSelectorBtnProps> = ({value, router}) => {
+const RoleSelectorBtn: FC<RoleSelectorBtnProps> = ({value, router, setRole}) => {
 
     return (
-        <StyledRoleSelectorBtn href={router}>
+        <StyledRoleSelectorBtn onMouseOver={() => setRole(value)} onMouseOutCapture={() => setRole("")} href={router}>
          {value}   
         </StyledRoleSelectorBtn>
     )
