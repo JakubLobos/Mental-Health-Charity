@@ -19,7 +19,7 @@ const LoginPopUp:FC<LoginPopUpProps> = ({allowExit}) => {
     const [user, setUser] = useAuthState(auth)
     const googleAuth = new GoogleAuthProvider();
     const facebookAuth = new FacebookAuthProvider();
-    const { setUserSession, userSession } = useUser();
+    const { userSession } = useUser();
     const [isPopUpVisible, setIsPopUpVisible] = useState(true)
 
     const loginWithGoogle = async() => {
@@ -39,7 +39,6 @@ const LoginPopUp:FC<LoginPopUpProps> = ({allowExit}) => {
                 <Image width={60} height={60} alt={userSession.displayName} src={userSession.photoURL} />
                 <button onClick={() => {
                     auth.signOut();
-                    setUserSession(null);
                 }}>Wyloguj</button> </>
             )
         }
@@ -51,12 +50,6 @@ const LoginPopUp:FC<LoginPopUpProps> = ({allowExit}) => {
             )
         }
     }
-
-    useEffect(() => {
-        user ? setUserSession(user) : console.log("user undefined")
-    }, [setUserSession, user])
-
-    
 
     return (
         <UnfocusedBg isPopUpVisible={isPopUpVisible}>

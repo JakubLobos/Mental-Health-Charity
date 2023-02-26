@@ -1,24 +1,13 @@
 import {  useEffect, useState } from "react";
 import LoginPopUp from "../components/loginpopup/LoginPopUp.component";
-import { useUser } from "../utils/usersession/UserSessionProvider.component";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../../pages/api/firebase/firebase";
 
-const withAuth = (Component:React.ReactNode | any) => {
+const withAuth = (Component: React.ReactNode | any) => {
+    const [user, loading, error] = useAuthState(auth)
     const Auth = (props:any) => {
-        const { userSession } = useUser()
-        const [showPopup, setShowPopup] = useState(false);
-            
-        useEffect(() => {
-            if (userSession) {
-                setShowPopup(false);
-            } else {
-                setShowPopup(true);
-            }
-            console.log(userSession)
-        }, [userSession]);
-
-        if (showPopup) return <LoginPopUp allowExit={false} />;
-        else return <Component {...props} />;
-        
+        const showPopup = user ? true : false;
+        return showPopup ? <LoginPopUp allowExit={false} /> : <Component {...props} />;
     };
     return Auth;
 }

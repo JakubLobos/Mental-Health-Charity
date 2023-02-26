@@ -1,8 +1,9 @@
 import { createContext, FC, useContext, useState } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../../../pages/api/firebase/firebase";
 
 export interface UserContextType {
     userSession: any;
-    setUserSession: (user: any) => void;
 }
 
 interface UserContextProviderProps {
@@ -11,16 +12,16 @@ interface UserContextProviderProps {
 
 const UserContext = createContext<UserContextType>({
     userSession: null,
-    setUserSession: () => {},
 });
 
 export const useUser = () => useContext(UserContext);
 
 export const UserContextProvider: FC<UserContextProviderProps> = ({ children }) => {
-  const [userSession, setUserSession] = useState(null);
+  const [user, loading, error] = useAuthState(auth)
+  const userSession = user ? { userSession: user } : { userSession: null };
 
   return (
-    <UserContext.Provider value={{ userSession, setUserSession }}>
+    <UserContext.Provider value={userSession}>
       {children}
     </UserContext.Provider>
   );
