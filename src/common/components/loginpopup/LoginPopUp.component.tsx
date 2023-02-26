@@ -7,7 +7,6 @@ import GoogleIcon from "../../../assets/images/static/google_icon.svg"
 import { auth } from "../../../pages/api/firebase/firebase";
 import { signInWithPopup, GoogleAuthProvider, FacebookAuthProvider } from "firebase/auth"
 import { useAuthState } from "react-firebase-hooks/auth"
-import { useUser } from "../../utils/usersession/UserSessionProvider.component";
 import Image from "next/image";
 
 interface LoginPopUpProps {
@@ -15,11 +14,10 @@ interface LoginPopUpProps {
 }
 
 const LoginPopUp:FC<LoginPopUpProps> = ({allowExit}) => {
-    
-    const [user, setUser] = useAuthState(auth)
+    const [user, loading, error] = useAuthState(auth)
     const googleAuth = new GoogleAuthProvider();
     const facebookAuth = new FacebookAuthProvider();
-    const { userSession } = useUser();
+    console.log(error)
     const [isPopUpVisible, setIsPopUpVisible] = useState(true)
 
     const loginWithGoogle = async() => {
@@ -31,12 +29,12 @@ const LoginPopUp:FC<LoginPopUpProps> = ({allowExit}) => {
     }
 
     const checkUserSession = () => {
-        if (userSession) {
+        if (user) {
             return (<>
-                <h2>Zalogowano jako {userSession.displayName}</h2>
-                <h3>e-mail: {userSession.email}</h3>
+                <h2>Zalogowano jako {user.displayName}</h2>
+                <h3>e-mail: {user.email}</h3>
                 <h3>uprawnienia: użytkownik</h3>
-                <Image width={60} height={60} alt={userSession.displayName} src={userSession.photoURL} />
+                <Image width={60} height={60} alt={"user image profile"} src={user.photoURL ? user.photoURL : ""} />
                 <button onClick={() => {
                     auth.signOut();
                 }}>Wyloguj</button> </>
