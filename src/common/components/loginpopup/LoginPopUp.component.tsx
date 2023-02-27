@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import StyledLoginPopUp from "./LoginPopUp.style";
 import LoginPopUpButton from "./popuploginbutton/PopUpLoginButton.component";
 import UnfocusedBg from "./unfocusedbg/UnfocusedBg.component";
@@ -8,20 +8,28 @@ import { auth } from "../../../pages/api/firebase/firebase";
 import { signInWithPopup, GoogleAuthProvider, FacebookAuthProvider } from "firebase/auth"
 import { useAuthState } from "react-firebase-hooks/auth"
 import Image from "next/image";
-
+import 'firebase/auth';
+import 'firebase/firestore';
 interface LoginPopUpProps {
     allowExit: boolean;
+}
+
+export interface interfaceUserObjProps {
+
 }
 
 const LoginPopUp:FC<LoginPopUpProps> = ({allowExit}) => {
     const [user, loading, error] = useAuthState(auth)
     const googleAuth = new GoogleAuthProvider();
     const facebookAuth = new FacebookAuthProvider();
-    console.log(error)
+    
     const [isPopUpVisible, setIsPopUpVisible] = useState(true)
 
-    const loginWithGoogle = async() => {
+    
+    
+    const loginWithGoogle = async () => {
         const result = await signInWithPopup(auth, googleAuth);
+    
     }
 
     const loginWithFacebook = async() => {
