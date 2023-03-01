@@ -9,14 +9,12 @@ import LoadingScreen from "../../common/components/loginpopup/loadingscreen/Load
 import MenteeForm from "./menteeform/MenteeForm.component";
 
 const MenteePanel: FC = () => {
-    const [user, loading, error] = useAuthState(auth);
+    const [user, loading] = useAuthState(auth);
     
-    const testUserData  = {
-        uid: '434234423',
-        displayName: 'Ababab!!!!',
-        email: 'ttt@tttttt.pl',
-        photoURL: 'https://example.com/profile.jpg'
-      }
+    const testUserInfo = {
+        pomoc: "Gorące zmienne abstrakcyjne, gotowe, aby dzidziczyć!",
+        objawy: "zadzwoń teraz!"
+    }
 
     if (loading || user === null) {
         return (<>
@@ -30,7 +28,7 @@ const MenteePanel: FC = () => {
         <MainLayout mainContentBgColor={colorPallete.properties.mainContentBgColor}>
             <StyledMenteePanel>
                 <MenteeForm />
-                <button onClick={() => saveUserToFirestore(testUserData)}>{user ? user.displayName : "zaloguj"}</button>
+                <button onClick={() => user ? saveUserToFirestore(user ,"menteeForms", testUserInfo) : window.alert("ERROR! User is not logged!")}>{user ? user.displayName : "zaloguj"}</button>
                 <button>cookies</button>
             </StyledMenteePanel>
         </MainLayout>   

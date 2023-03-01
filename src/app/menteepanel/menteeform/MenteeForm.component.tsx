@@ -13,16 +13,27 @@ const MenteeForm:FC = () => {
                 <legend>Ankieta podopiecznego</legend>
                 <p>Wypełnienie jej jest dobrowolne! Pamiętaj, że wypełniając ją, dajesz nam więcej wskazówek jak pomóc Tobie!</p>
                 <p>
-                    <input type="text" name="name" id="size_1" value={user?.displayName + ""} />
-                    <label htmlFor="name">Imie</label>
+                    <input type="text" name="namesurname" contentEditable={false} value={user?.displayName + ""} />
+                    <label htmlFor="namesurname">Imie</label>
                 </p>
                 <p>
-                    <input type="text" name="surname" id="size_2" value={user?.displayName + ""} />
+                    <input type="text" name="surname" contentEditable={false} value={user?.displayName + ""} />
                     <label htmlFor="surname">Nazwisko</label>
                 </p>
                 <p>
-                    <input type="text" name="age" id="size_3" value={user?.email + ""} />
-                    <label htmlFor="age">Wiek</label>
+                    <input type="text" name="email" contentEditable={false} value={user?.email + ""} />
+                    <label htmlFor="email">e-mail</label>
+                </p>
+                <p>
+                    <input type="number" name="wiek" contentEditable={false} placeholder={"25"} />
+                    <label htmlFor="wiek">Wiek</label>
+                </p>
+                <p>
+                    <textarea name="details" placeholder={"Potrzebuje pomocy w (..); Od jakiegoś czasu czuję, że (..)."} />
+                    <label htmlFor="details">Powiedz nam cos o sobie!</label>
+                </p>
+                <p>
+                    <input type="submit" onClick={() => console.log("submited")} />
                 </p>
             </fieldset>
         </StyledMenteeForm>
