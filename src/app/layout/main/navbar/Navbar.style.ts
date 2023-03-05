@@ -13,6 +13,7 @@ const StyledNavbar = styled.nav`
     width: 100%;
     border-radius: 0 0 1em 1em;
     box-shadow: .1em .2em .1em #1b1b1b5b;
+    z-index: 999; //force
 
     & .navbar_logo_wrapper {
         display: flex;

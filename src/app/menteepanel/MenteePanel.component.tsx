@@ -2,19 +2,15 @@ import { FC } from "react";
 import colorPallete from "../../common/styles/colorpalette";
 import MainLayout from "../layout/main/MainLayout.component";
 import StyledMenteePanel from "./MenteePanel.style";
-import { auth, saveUserToFirestore } from "../../pages/api/firebase/firebase";
+import { auth, saveToFirestore } from "../../pages/api/firebase/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import LoginPopUp from "../../common/components/loginpopup/LoginPopUp.component";
 import LoadingScreen from "../../common/components/loginpopup/loadingscreen/LoadingScreen.component";
 import MenteeForm from "./menteeform/MenteeForm.component";
+import Chat from "../../common/components/chat/Chat.component";
 
 const MenteePanel: FC = () => {
     const [user, loading] = useAuthState(auth);
-    
-    const testUserInfo = {
-        pomoc: "Gorące zmienne abstrakcyjne, gotowe, aby dzidziczyć!",
-        objawy: "zadzwoń teraz!"
-    }
 
     if (loading || user === null) {
         return (<>
@@ -27,9 +23,10 @@ const MenteePanel: FC = () => {
         return (
         <MainLayout mainContentBgColor={colorPallete.properties.mainContentBgColor}>
             <StyledMenteePanel>
-                <MenteeForm />
-                <button onClick={() => user ? saveUserToFirestore(user ,"menteeForms", testUserInfo) : window.alert("ERROR! User is not logged!")}>{user ? user.displayName : "zaloguj"}</button>
-                <button>cookies</button>
+                    <MenteeForm />
+                    <Chat />
+                    <p>dev alpha</p>
+                <button onClick={() => console.log(user)}>debug cookies</button>
             </StyledMenteePanel>
         </MainLayout>   
     ) 
