@@ -36,17 +36,18 @@ export const saveToFirestore = async (user: { uid: any; displayName: any; email:
   }
 }
 
-export const saveVolunteer = async (user: { uid: any; displayName: any; email: any; photoURL: any; }, selectedVolunteerUID:string, data?: object, ) => {
-  const { uid, displayName, email, photoURL } = user;
-  const collectionName:string = selectedVolunteerUID;
-  const documentName = uid;
+export const saveChatMessage = async (user: { uid: any; displayName: any; email: any; photoURL: any; }, volunteerUID:string, menteeUID:string, data: string, ) => {
 
   try {
-    const collectionRef = collection(db, collectionName);
-    const documentRef = doc(collectionRef, documentName);
-    await setDoc(documentRef, data ? data : {});
-    console.log(`Document ${documentName} successfully written in collection ${collectionName}!`);
+    const chatsRef  = collection(db, "chats");
+    const volunteerDocRef = doc(chatsRef, volunteerUID);
+    const menteeRef = collection(volunteerDocRef, menteeUID)
+    await addDoc(menteeRef, {
+      message: {name: user.displayName, content: data,},
+      
+    });
+    console.log(`Document  successfully written in collection!`);
   } catch (error) {
-    console.error(`Error writing document ${documentName} in collection ${collectionName}: `, error);
+    console.error(`Error writing document  in collection : `, error);
   }
 }
