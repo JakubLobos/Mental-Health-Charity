@@ -1,10 +1,10 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import StyledLoginPopUp from "./LoginPopUp.style";
 import LoginPopUpButton from "./popuploginbutton/PopUpLoginButton.component";
 import UnfocusedBg from "./unfocusedbg/UnfocusedBg.component";
 import FacebookIcon from "../../../assets/images/static/facebook_icon.png"
 import GoogleIcon from "../../../assets/images/static/google_icon.svg"
-import { auth } from "../../../pages/api/firebase/firebase";
+import { auth, saveToFirestore } from "../../../pages/api/firebase/firebase";
 import { signInWithPopup, GoogleAuthProvider, FacebookAuthProvider } from "firebase/auth"
 import { useAuthState } from "react-firebase-hooks/auth"
 import Image from "next/image";
@@ -19,22 +19,25 @@ export interface interfaceUserObjProps {
 }
 
 const LoginPopUp:FC<LoginPopUpProps> = ({allowExit}) => {
-    const [user, loading, error] = useAuthState(auth)
+    const [user] = useAuthState(auth)
     const googleAuth = new GoogleAuthProvider();
     const facebookAuth = new FacebookAuthProvider();
-    
     const [isPopUpVisible, setIsPopUpVisible] = useState(true)
-
-    
     
     const loginWithGoogle = async () => {
         const result = await signInWithPopup(auth, googleAuth);
-    
+
     }
 
     const loginWithFacebook = async() => {
         const result = await signInWithPopup(auth, facebookAuth);
     }
+
+    useEffect(() => {
+        if(user) {
+            saveToFirestore(user, "usersData", {})
+        }
+    },[user])
 
     const checkUserSession = () => {
         if (user) {
@@ -47,9 +50,7 @@ const LoginPopUp:FC<LoginPopUpProps> = ({allowExit}) => {
                     auth.signOut();
                 }}>Wyloguj</button> </>
             )
-        }
-
-        else {
+        } else {
             return (<>
                 <LoginPopUpButton value="Google" imgsrc={GoogleIcon} service={loginWithGoogle}/>
                 <LoginPopUpButton value="Facebook" imgsrc={FacebookIcon} service={loginWithFacebook} /></>
