@@ -1,32 +1,56 @@
-import { collection, doc, DocumentData, getDoc, getDocs, query } from "firebase/firestore";
+import { collection, doc, DocumentData, getDoc, getDocs } from "firebase/firestore";
 import { FC, useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import LoginPopUp from "../../common/components/loginpopup/LoginPopUp.component";
 import Notification from "../../common/components/notification/Notification.component";
 import colorPallete from "../../common/styles/colorpalette";
 import { auth, db } from "../../pages/api/firebase/firebase";
 import MainLayout from "../layout/main/MainLayout.component";
 import StyledAdminPanel from "./AdminPanel.style";
+import Image from "next/image";
+
+interface User extends DocumentData {
+    uid: string;
+    displayName: string;
+    photoURL: string;
+    email: string,
+}
 
 const AdminPanel: FC = () => {
-
-    const [user] = useAuthState(auth)
+    const [user] = useAuthState(auth);
     const [adminStatus, setAdminStatus] = useState<DocumentData>();
+    const [usersData, setUsersData] = useState<User[]>([]);
+
+    const getUsersData = async () => {
+        try {
+            const querySnapshot = await getDocs(collection(db, "usersData"));
+            const userDataArray = querySnapshot.docs.map(doc => {
+            const data = doc.data();
+            return { uid: doc.id, ...data } as User;
+        });
+            setUsersData(userDataArray);
+            return (
+                <Notification isVisible={true} content={"Pobrano"} />
+            )
+        
+        } catch (error) {
+          console.log(error);
+        }
+      };
 
     useEffect(() => {
-        if(user) {
+        if (user) { 
             const getAdmins = async () => {
                 const querySnapshot = await getDoc(doc(db, "admins", user.uid))
                 setAdminStatus(querySnapshot.data())
             };
             getAdmins();
-        }
-    });
+        };
+        console.log("READING ADMINS")
+    }, []);
 
-    if (!adminStatus) {
+    if (!adminStatus && !user) {
         return (
             <MainLayout mainContentBgColor={colorPallete.properties.mainContentBgColor}>
-                <LoginPopUp allowExit={true} />
                 <Notification isVisible={true} content={"Ta podstrona wymaga uprawnień administratora. Jeśli uważasz, że powinieneś takie posiadać zgłoś się do odpowiedniego działu."} />
                 <button onClick={() => console.log(adminStatus)}>dwadawd</button>
             </MainLayout>
@@ -48,6 +72,24 @@ const AdminPanel: FC = () => {
                     <ul>
                         <li>demo</li>
                     </ul>
+                </div>
+                <div>
+                    <h2>Lista użytkowników</h2>
+                    <ul>
+                        {
+                            usersData.map((user: User) => {
+                                return (
+                                    <li key={user.uid}>
+                                        <Image src={user.photoURL} alt={"picture of " + user.displayName} width={60} height={60} ></Image>
+                                        <p>Imie i nazwisko: {user.displayName}</p>
+                                        <p>UID: {user.uid}</p>
+                                        <p>e-mail: {user.email}</p>
+                                    </li> 
+                                )   
+                            })                            
+                        }
+                    </ul>
+                    <button onClick={() => getUsersData()}>Pobierz</button>
                 </div>
                 <div>
                     <h2>Lista formularzy wypełnionych przez podopiecznych</h2>
@@ -83,15 +125,10 @@ const AdminPanel: FC = () => {
                         </li>
                     </ul>
                 </div>
-                <div>
-                    <p>DEBUG | PRODUCTION ONLY</p>
-                    <button onClick={() => console.log(adminStatus)}>REACHED ADMIN DOC</button>
-                    <button onClick={() => console.log(user)}>USER</button>
-                    <button onClick={() => console.log(adminStatus.uid === user?.uid)}>123</button>
-                </div>
             </StyledAdminPanel>
         )
     } 
 }
 
 export default AdminPanel;
+

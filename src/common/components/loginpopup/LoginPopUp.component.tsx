@@ -10,12 +10,9 @@ import { useAuthState } from "react-firebase-hooks/auth"
 import Image from "next/image";
 import 'firebase/auth';
 import 'firebase/firestore';
+
 interface LoginPopUpProps {
     allowExit: boolean;
-}
-
-export interface interfaceUserObjProps {
-
 }
 
 const LoginPopUp:FC<LoginPopUpProps> = ({allowExit}) => {
